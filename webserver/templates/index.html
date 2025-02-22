@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chatbot</title>
+  <script>
+    async function sendQuery() {
+      const query = document.getElementById("query").value;
+      const responseDiv = document.getElementById("response");
+
+      if (!query) {
+        responseDiv.innerText = "Please enter a question.";
+        return;
+      }
+
+      responseDiv.innerText = "Generating response...";
+
+      try {
+        const res = await fetch("/chat", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ query })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          responseDiv.innerText = data.response;
+        } else {
+          responseDiv.innerText = `Error: ${data.error}`;
+        }
+      } catch (error) {
+        responseDiv.innerText = `Error: ${error.message}`;
+      }
+    }
+  </script>
+</head>
+<body>
+  <h1>Chatbot</h1>
+  <p>Ask me anything:</p>
+  <input type="text" id="query" placeholder="Type your question here" />
+  <button onclick="sendQuery()">Submit</button>
+  <div id="response" style="margin-top: 20px; font-weight: bold;"></div>
+</body>
+</html>
