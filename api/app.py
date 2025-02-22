@@ -6,7 +6,7 @@ import openai
 app = Flask(__name__, template_folder="../templates")
 
 # Set your OpenAI API key as an environment variable or directly here
-os.environ['OPENAI_API_KEY'] = ''
+
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
 # Function to generate a response using OpenAI's GPT model
