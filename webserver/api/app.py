@@ -53,7 +53,13 @@ def chat():
         return jsonify({"query": query, "response": response})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
+@app.route('/test-env')
+def test_env():
+    api_key = os.getenv('OPENAI_API_KEY')
+    if api_key:
+        return f"API Key is accessible: {api_key[:5]}... (truncated for security)"
+    else:
+        return "API Key is not accessible", 500
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
